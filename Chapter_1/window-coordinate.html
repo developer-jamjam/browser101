@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinates</title>
+    <style>
+        body {
+            background-color: black;
+            /* overflow: hidden; 스크롤 안되게 하는 css */
+        }
+
+        div {
+            width: 250px;
+            height: 250px;
+            border-radius: 5px;
+            background-color: palegreen;
+            border: 1px solid purple;
+            margin-top: 5px;
+        }
+
+        .coordinates {
+            background-color: aquamarine;
+        }
+
+        aside {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="coordinates"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <aside>
+        <button class="scroll-by">Scroll By 100px(Y)</button>
+        <button class="scroll-to">Scroll To 100px(Y)</button>
+        <button class="scroll-into">Scroll Coordinates</button>
+        <button class="scroll-zero">Scroll Zero</button>
+    </aside>
+    <script>
+        const coordinates = document.querySelector('.coordinates');
+        coordinates.addEventListener('click', (event) => { //click 했을때 콜백함수 호출 
+            //event 에는 항상 event 라는 object 전달 된다. 
+            /*
+                getBoundingClientRect
+                엘리먼트의 크기와 뷰포트에 상대적인 위치 정보를 제공하는 DOMRect 객체를 반환
+            */
+            const rect = coordinates.getBoundingClientRect();
+            console.log(rect); // getBoundingClientRect 값 확인
+            console.log(event); // event 오브젝트에 들어오는 값 확인
+            console.log(`clientXY : ${event.clientX} , ${event.clientY}`);
+            console.log(`pageXY : ${event.pageX}, ${event.pageY}`);
+        })
+
+        const scrollBy = document.querySelector('.scroll-by');
+        const scrollTo = document.querySelector('.scroll-to');
+        const scrollInto = document.querySelector('.scroll-into');
+        const scrollZero = document.querySelector('.scroll-zero');
+
+        scrollBy.addEventListener('click', () => {
+            window.scrollBy(0, 100); //창에 있는 문서를 지정된 양만큼 스크롤
+            /*
+                아래와 같은 방법으로 object로 전달 할 수 도 있다.
+                behavior => 움직임옵션 
+                window.scrollBy({top: 100 , left: 0 , behavior: 'smooth'})
+            */
+        })
+        scrollTo.addEventListener('click', () => {
+            window.scrollTo(0, 100); //문서의 지정된 위치로 스크롤
+        })
+        scrollInto.addEventListener('click', () => {
+            coordinates.scrollIntoView();
+            //scrollIntoView()가 호출 된 요소가 사용자에게 표시되도록 요소의 상위 컨테이너를 스크롤
+        })
+        scrollZero.addEventListener('click', () => {
+            window.scrollTo(0, 0);
+        })
+
+    </script>
+</body>
+
+</html>
